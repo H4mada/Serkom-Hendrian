@@ -27,21 +27,26 @@
     </style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex" style="background-color: rgba(0, 0, 0, 0.5);">
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{route ('home')}}" style="color: #fff;">Rooms</a>
-              </li>
-            </ul>
-            <ul class="navbar-nav ml-auto align-items-center">
-              <li class="nav-item">
-                <a class="nav-link" href="{{route ('create')}}" style="color: #fff;">Pesan Kamar</a>
-              </li>
-              <li class="nav-item">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{route ('home')}}" style="color: #fff;">Rooms</a>
+                </li>
+                </ul>
+                <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route ('create')}}" style="color: #fff;">Pesan Kamar</a>
+                </li><li class="nav-item">
+                    <a class="nav-link" href="{{route ('reservations.index')}}" style="color: #fff;"> riwayat Pemesanan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route ('reservations.room-stats')}}" style="color: #fff;">Statistik Pemesanan</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{route ('about')}}" style="color: #fff;">Tentang Kami</a>
-            </li>
-            </ul>
-        </div>
+                </li>
+                </ul>
+            </div>
         </nav>
         <style>
         .booking-item label {
@@ -56,33 +61,37 @@
             text-align: center;
           }
         </style>
-
-        <div class="container">
-        
-        
+<!-- menampilkan dan memanggil card transaksi/nota  -->
+        <div class="container">  
     <h1 class="text-center">Hasil Pemesanan</h1>
     @if(isset($booking))
         <div class="booking-item">
         <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
             <label>Nama Pemesan     </label> : {{ $booking->name }}<br>
             <label>Jenis Kelamin    </label> : {{ $booking->gender }}<br>
             <label>Nomor Identitas  </label> : {{ $booking->nik }}<br>
             <label>Tipe Kamar       </label> : {{ $booking->room_id }}<br>
-            <label>Harga Kamar      </label> : {{ $booking->price }}<br>
+            <label>Harga Kamar      </label> : Rp {{ number_format((float)str_replace(',', '', $booking->price), 0) }}<br>
             <label>Tanggal Pesan    </label> : {{ $booking->date }}<br>
-            <label>Durasi Menginap  </label> : {{ $booking->time }} hari<br>
+            <label>Durasi Menginap  </label> : {{ $booking->time  }}<br>
             <label>Breakfast        </label> : {{ $booking->breakfast }}<br>
-            <label>Total Bayar      </label> : {{ $booking->total }}<br>
             <label>Diskon</label> : 
+            <!-- rumus memilih apakah terdapat diskon atau tidak -->
             @php
                 $total = $booking->total;
-                if ($booking->time > 3) {
-                    echo "Terapat Diskon (10%)<br>";
-                } else {
+                if ($booking->time > 2) {
+                    echo "Diskon 10% (tidak termasuk breakfast)";
+                }
+                else {
                     echo "Tidak Ada Diskon<br>";
                 }
+                
             @endphp
+            <br>
+
+            <label>Total Bayar      </label> : Rp {{ number_format((float)str_replace(',', '', $booking->total), 0) }}<br>
+
         </div>
         </div>
         </div>

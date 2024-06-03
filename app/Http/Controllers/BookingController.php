@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\booking;
+use App\Models\Booking;
 
 class BookingController extends Controller
 {
-
-    public function store(request $request)
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
-
             'name' => 'required|max:255',
             'gender' => 'required|max:255',
             'nik' => 'required|size:16',
@@ -20,10 +18,9 @@ class BookingController extends Controller
             'date' => 'required|date',
             'time' => 'required|numeric',
             'total' => 'required|numeric',
-        ],
-            [
-                'nik.size' => 'Isian salah..data harus 16 digit',
-                'time.numeric' => 'Harus isi angka untuk durasi menginap',
+        ], [
+            'nik.size' => 'Isian salah..data harus 16 digit',
+            'time.numeric' => 'Harus isi angka untuk durasi menginap',
         ]);
 
         $breakfast = $request->has('breakfast') ? 'Ya' : 'Tidak';
@@ -41,11 +38,9 @@ class BookingController extends Controller
             'total' => $validatedData['total'],
         ]);
 
-        
-        
         return redirect()->route('booking.show', ['id' => $booking->id]);
-
     }
+
     public function show($id)
     {
         // Mengambil data booking berdasarkan ID
@@ -53,36 +48,34 @@ class BookingController extends Controller
         // Mengirim data booking ke view
         return view('transaksi', compact('booking'));
     }
-     
-    public function create ()
+
+    public function create()
     {
-        return view ('create');
+        return view('create');
     }
 
     public function home()
     {
-        return view ('home');
+        return view('home');
     }
 
     public function about()
     {
-        return view ('about');
+        return view('about');
     }
 
     public function standart()
     {
-        return view ('standart');
+        return view('standart');
     }
 
     public function deluxe()
     {
-        return view ('deluxe');
+        return view('deluxe');
     }
 
     public function executive()
     {
-        return view ('executive');
+        return view('executive');
     }
-
-
 }
